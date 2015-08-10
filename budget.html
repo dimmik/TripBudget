@@ -10,6 +10,18 @@
 
 
 <script>
+	// helpers
+	function evalAriphmetics(exp){
+		var cleanExp = exp.replace(/[^\d\(\)\+\-\*\/]+/g, ' ');
+		//alert("ce: " + cleanExp);
+		var res = -1;
+		try {
+			res = eval(cleanExp);
+		} catch (err){
+			res = -1;
+		}
+		return res;//
+	}
 	// *** Domain model ************************ 
 	
 	// Family
@@ -24,7 +36,7 @@
 	}
 	Family.prototype.debt = function(avg){
 		var toBeSpent = this.peoplesNum * avg;
-		return (toBeSpent - eval(this.expenses));
+		return (toBeSpent - evalAriphmetics(this.expenses));
 	}
 	
 	// Trip
@@ -49,7 +61,7 @@
 		var totalExpense = 0;
 		for (var i = 0; i < this.families.length ; i ++)
 		{
-			totalExpense += eval(this.families[i].expenses) * 1;
+			totalExpense += evalAriphmetics(this.families[i].expenses) * 1;
 		}
 		return totalExpense;
 	}
@@ -296,7 +308,7 @@
 			o = fTemplate.replace(/\$\{name\}/g, f.name);
 			o = o.replace(/\$\{peoplesNum\}/g, f.peoplesNum * 1);
 			o = o.replace(/\$\{expenses\}/g, f.expenses);
-			o = o.replace(/\$\{expensesEval\}/g, eval(f.expenses));
+			o = o.replace(/\$\{expensesEval\}/g, evalAriphmetics(f.expenses));
 			o = o.replace(/\$\{paid\}/g, f.paid);
 			o = o.replace(/\$\{debt\}/g, debt.toFixed(0));
 			o = o.replace(/\$\{debtAbs\}/g, Math.abs((debt).toFixed(0)));
@@ -390,56 +402,56 @@
 }
 
   .input-container {
-    font-size: 1.5em;
-    text-align: left;
+	font-size: 1.5em;
+	text-align: left;
   }
 
   .input-container select {
-    font-size: inherit;
+	font-size: inherit;
   }
   .input-container input {
-    font-size: inherit;
+	font-size: inherit;
   }
   .input-container button {
-    font-size: inherit;
+	font-size: inherit;
   }
 
 	body {
-      margin: 0;
-      padding: 2px;
-      background-color: #FFFFFF;
-      color: #000000;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-    .tablewrapper {
-      position: relative;
-    }
-    .table {
-      display: table;
-    }
-    .row {
-      display: table-row;
-    }
-    .cell {
-      display: table-cell;
+	  margin: 0;
+	  padding: 2px;
+	  background-color: #FFFFFF;
+	  color: #000000;
+	  font-family: Arial, Helvetica, sans-serif;
+	}
+	.tablewrapper {
+	  position: relative;
+	}
+	.table {
+	  display: table;
+	}
+	.row {
+	  display: table-row;
+	}
+	.cell {
+	  display: table-cell;
 	  border: 1px solid blue;
-      padding: 0.2em;
-    }
-    .cell.g
-    {
+	  padding: 0.2em;
+	}
+	.cell.g
+	{
 		border: 1px solid green;
 	}
-    .cell.empty
-    {
-      border: none;
-      width: 30em;
-    }
-    .cell.rowspanned {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 100px;
-    }
+	.cell.empty
+	{
+	  border: none;
+	  width: 30em;
+	}
+	.cell.rowspanned {
+	  position: absolute;
+	  top: 0;
+	  bottom: 0;
+	  width: 100px;
+	}
 
 	.bgc0 {
 		background-color: #CCFF99;
