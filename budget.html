@@ -12,7 +12,10 @@
 <script>
 	// helpers
 	function evalAriphmetics(exp){
-		var cleanExp = exp.replace(/[^\d\(\)\+\-\*\/]+/g, ' ');
+		var cleanExp = exp.replace(/[^\d\(\)\+\-\*\/]+/g, '+'); // фигню заменяем на плюсики
+        cleanExp = cleanExp.replace(/\s/g, ''); // убираем пробелы
+        cleanExp = cleanExp.replace(/\++/g, '+'); // несколько плюсов - на один
+        cleanExp = cleanExp.replace(/\++$/g, ''); // плюсы в конце убираем
 		//alert("ce: " + cleanExp);
 		var res = -1;
 		try {
