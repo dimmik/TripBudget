@@ -142,7 +142,7 @@
 	}
 	function deleteTrip(pnum){
 		ps.trips.splice(pnum, 1);
-		ps.selected = -1;
+		ps.selected = ps.trips.length > 0 ? 0 : -1;
 		storeToLocalStorage(ps);
 		cleanUIcontent();
 		initTripsListUI();
