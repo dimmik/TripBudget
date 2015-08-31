@@ -103,10 +103,32 @@
 		color: red;
 		text-align: center;
 	}
+    .ac_plus{
+		color: green;
+		text-align: center;
+        font-size: 0.7em;
+    }
+    .ac_minus{
+		color: red;
+		text-align: center;
+        font-size: 0.7em;
+    }
+    .ac_totalplus{
+		color: green;
+        font-weight: bold;
+		text-align: center;
+        font-size: 1.2em;
+    }
+    .ac_totalminus{
+		color: red;
+        font-weight: bold;
+		text-align: center;
+        font-size: 1.2em;
+    }
 
 </style>
 
-<body onLoad="initDiff();">
+<body onLoad="initAggregate();">
 
 <div id="GenericUI">
 </div>
@@ -116,21 +138,21 @@
 	-- Список существующих походов
 	<div id='tripsListTemplate'>
 		<div style="display:inline;" id="${id}">
-				<select id='tripSelect' onChange='initCurrentTrip();'>
-				<option value='-1'>-- select --</option>
 				${trips}
-				</select>
+                <br/>
 		</div>
 	</div>
 
 	<div id="currencySignTemplate">
 		Currency sign: <input type="text" style="width: 3em;" value="${currencySign}" onChange='updateCurrencySign(this.value);'>
 	</div>
-	-- Опция в списке походов
+	-- один поход
 	<div id='tripOptionTemplate'>
-		<option value='${pnum}' ${selected}>${name} [${totalPeoples} / ${totalExpense}]</option>
+        <input type="checkbox" ${checked} id="tripcheckbox_${pnum}" value="${pnum}" onChange="initCurrentTrip(-2);"/> ${name} [${totalPeoples} / ${totalExpense}]<br/>
 	</div>
 
+
+    
 	-- Заголовок похода
 	<div id='tripHeaderTemplate'>
 		<div style="display:inline;" id="${id}">
@@ -157,24 +179,26 @@
 	-- Одна семья
 	<div id='oneFamilyTemplate'>
 		<div class="bgc${mod2}">
-				<span><b style="cursor: pointer;" onClick="var n = prompt('Имя', '${name}');if (n!=null)updateFamily(${pnum}, ${fnum}, n, '${peoplesNum}', '${expenses}', ${paid});">${name}</b> 
-				<span style="cursor: pointer; display: inline;" onClick="var num = prompt('Сколько человек', '${peoplesNum}'); if (num!=null)updateFamily(${pnum}, ${fnum}, '${name}', num, '${expenses}', ${paid});">${peoplesNum}</span></span>
-				<span align="center" style="cursor: pointer;" onClick="var ex = prompt('Затраты', '${expenses}'); if (ex!=null)updateFamily(${pnum}, ${fnum}, '${name}', '${peoplesNum}', ex, ${paid});">${expensesEval}</span>
-				<span class="debt${debtS}">
-				${debtAction} <b style="cursor: pointer;" onClick="var pp = prompt('Уплочено', '${paid}');if (pp!=null)updateFamily(${pnum}, ${fnum}, '${name}', '${peoplesNum}', '${expenses}', pp);">${debtAbs}</b></span>
-				<span style="cursor: pointer;" onclick="if (confirm('delete \'${name}\'?')) deleteFamily(${pnum}, ${fnum})">-</span>
+				<span><b>${name}</b></span>
+                ${debtCounts}
 		</div>
 	</div>
 	-- Список семей
 	<div id='familyListTemplate'>
 		<div style="font-size:50%;">
 		<span>Кто</span>
-		<span>Сколько</span>
-		<span>долг</span>
+		${aggregatedTrips}
 		</div>
 			${families}
 	</div>	
 
+    <div id="oneAggregatedTripHeader">
+        <span style="text-align: center;">${name}</span>
+    </div>
+    <div id="oneAggregatedTripCell">
+        <span class="ac_${style}">${debt}</span>
+    </div>
+    
 	-- добавление новой семьи
 	<div id='addFamilyTemplate'>
 		<div>
@@ -215,31 +239,12 @@
 	<div id="GenericUITemplate">
 
 		<div>
-            <b><a href="budgetAggregate.html">Aggregate</a></b><br/>
+            <b><a href="budget.html">Edit</a></b><br/>
 			${pListUI}<br/>
-			<!-- Поход -->
-			${pHeaderUI}
-			<hr/>
 			<!-- Список семей -->
-			<b>Hit value to edit</b>
 			<div class="table-like">
 			${familiesListUI}
-			${addFamilyUI}
 			</div>
-			<!-- Всякая фигня - валюта и пр. Возможно вообще слева чтобы выезжала-->
-			<hr/>
-			<div>
-				<span style="cursor: pointer;" onClick="var a = document.getElementById('additions'); if (a.style.visibility == 'hidden') {a.style.visibility = 'visible';} else {a.style.visibility = 'hidden';}">
-					Всякая дополнительная фигня
-				</span>
-				<div id="additions" style="visibility: hidden;">
-					<hr>
-					${addNewTripUI}
-					<hr>
-					${currencySignUI}
-					<hr>
-					${jsonExportImportUI}
-				</div>
 			</div>
 		</div>
 	</div><!--div id="GenericUITemplate"-->
